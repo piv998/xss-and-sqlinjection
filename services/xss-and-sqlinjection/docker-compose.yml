@@ -1,0 +1,58 @@
+version: '3.8'
+
+services:
+  vuln-server:
+#    depends_on:
+#      - vuln-db
+    build:
+      context: .
+    container_name: vuln-server
+    hostname: vuln-server
+    networks:
+      - vulnnet
+    ports:
+      - 80:5000
+    environment:
+      - MSHOST=${MSHOST:-vulndbhost}
+      - MSPORT=${MSPORT:-1433}
+      - MSUSER=${MSUSER:-sa}
+      - MSPASS=${MSPASS:?database password not set}
+      - MSDBNAME=${MSDBNAME:-vuln}
+    deploy:
+      restart_policy:
+        condition: on-failure
+  vuln-db:
+    build: ./db
+    # image: "mcr.microsoft.com/mssql/server:2019-latest"
+    environment:
+      - SA_PASSWORD=${MSPASS:?database password not set}
+      - ACCEPT_EULA=Y
+      - TZ=UTC
+    container_name: vuln-db
+    hostname: vulndbhost
+    networks:
+      - vulnnet
+    ports:
+      - 1433:1433
+    volumes:
+      - vulnvol:/var/opt/mssql
+#  vuln-db:
+#    image: cockroachdb/cockroach:latest-v20.1
+#    container_name: vuln-db
+#    hostname: vulndbhost
+#    networks:
+#      - mynet
+#    ports:
+#      - 26257:26257
+#      - 8080:8080
+#    volumes:
+#      - roach:/cockroach/cockroach-data
+#    command: start-single-node --insecure
+
+volumes:
+  vulnvol:
+  
+networks:
+  vulnnet:
+    driver: bridge
+

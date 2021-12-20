@@ -1,0 +1,16 @@
+{
+  "indent": 2,
+  "undef": true,
+  "quotmark": false,
+  "maxlen": 400,
+  "trailing": true,
+  "curly": false,
+  "strict": false,
+  "browser": true,
+  "devel": true,
+  "jquery": true,
+  "esversion": 9,
+  "node": true,
+  "loopfunc": true,
+  "-W058": true
+}
