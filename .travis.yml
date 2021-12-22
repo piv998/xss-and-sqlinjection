@@ -27,6 +27,13 @@ install:
   - pip install -r requirements.txt
   - pip install -r checkers/requirements.txt
   - chmod u+x check.py
+  - chmod u+x checkers/xss-and-sqlinjection/checker.py
+  - chmod u+x services/xss-and-sqlinjection/crackme.py
+  - chmod u+x services/xss-and-sqlinjection/xss_victim.py
+  - chmod u+x services/xss-and-sqlinjection/crackme.py
+  - chmod u+x services/xss-and-sqlinjection/db/entrypoint.sh
+  - chmod u+x services/xss-and-sqlinjection/db/setup_database.sh
+  - chmod u+x services/xss-and-sqlinjection/db/setup.sql
   - ./check.py list
   - ./check.py validate
   - ./check.py up
