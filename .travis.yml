@@ -26,6 +26,7 @@ install:
   - sudo apt-get install python3 python3-pip python3-dev git libssl-dev libffi-dev build-essential libmpc-dev
   - pip install -r requirements.txt
   - pip install -r checkers/requirements.txt
+  - chmod u+x check.py
   - ./check.py list
   - ./check.py validate
   - ./check.py up
