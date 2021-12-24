@@ -35,11 +35,11 @@ install:
   - chmod u+x services/xss-and-sqlinjection/db/setup_database.sh
   - chmod u+x services/xss-and-sqlinjection/db/setup.sql
   - ./check.py list
-  - ./check.py validate
+#  - ./check.py validate
   - ./check.py up
 
 before_script:
-  - sleep 30
+  - sleep 300
 
 script:
   - ./check.py check

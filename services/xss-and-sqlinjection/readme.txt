@@ -42,3 +42,17 @@ Exploiting xss vulnerability:
 python xss_victim.py >victim_flags.txt
 
 3. Там, где был запущен сервер будут появляться id и флаги, которые просматривает жертва
+
+
+
+python3 check.py list
+python3 check.py up
+python3 check.py check
+python3 sploits\crackme.py localhost
+.\sploits\attack\attack.exe
+Во втором шеле:
+python3 sploits\xss_victim.py >victim_flags.txt
+В первом шеле:
+Ctrl+C
+Удаляем файл victim_flags.txt
+python3 check.py down

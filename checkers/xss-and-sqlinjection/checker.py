@@ -72,7 +72,7 @@ def get(id, flag=None):
 
 
 def info():
-    close(OK, public="vulns: 1")
+    close(OK, public='{"vulns": 1, "timeout": 30, "attack_data": ""}')
 
 
 def randWord(symbol_count, alphabet):
@@ -128,6 +128,7 @@ if __name__ == '__main__':
             flag = sys.argv[4]
             if mode == 'put':
                 put(id, flag)
+                close(OK, public=id)
             else:
                 get(id, flag)
         close(OK)

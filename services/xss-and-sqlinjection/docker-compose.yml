@@ -1,4 +1,4 @@
-version: '3.8'
+version: '2.4'
 
 services:
   vuln-server:
@@ -34,23 +34,12 @@ services:
       - vulnnet
     ports:
       - 1433:1433
-    volumes:
-      - vulnvol:/var/opt/mssql
-#  vuln-db:
-#    image: cockroachdb/cockroach:latest-v20.1
-#    container_name: vuln-db
-#    hostname: vulndbhost
-#    networks:
-#      - mynet
-#    ports:
-#      - 26257:26257
-#      - 8080:8080
 #    volumes:
-#      - roach:/cockroach/cockroach-data
-#    command: start-single-node --insecure
+#      - vulnvol:/var/opt/mssql
 
-volumes:
-  vulnvol:
+
+#volumes:
+#  vulnvol:
   
 networks:
   vulnnet:

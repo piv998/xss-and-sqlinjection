@@ -117,7 +117,7 @@ class Checker(BaseValidator):
     def _get_info(self):
         self._log('running info action')
         cmd = [str(self._exe_path), 'info', HOST]
-        print(cmd)
+        #print(cmd)
         out, _ = self._run_command(cmd)
         info = json.loads(out)
         self._log(f'got info: {info}')
@@ -141,8 +141,9 @@ class Checker(BaseValidator):
 
     def _run_command(self, command: List[str], env=None) -> Tuple[str, str]:
         action = command[1].upper()
-        cmd = ['timeout', str(self._timeout)] + command
-        print(cmd)
+        # cmd = ['timeout', str(self._timeout)] + command
+        cmd = ['python3'] + command
+        # print(cmd)
         start = time.monotonic()
         p = subprocess.run(cmd, capture_output=True, check=False, env=env)
         elapsed = time.monotonic() - start
@@ -263,6 +264,9 @@ class StructureValidator(BaseValidator):
         self._was_error |= super()._error(cond, message)
 
     def validate(self):
+        #print('self._dir', self._dir)
+        #print('VALIDATE_DIRS', VALIDATE_DIRS)
+        #print('self._service.name', self._service.name)
         for d in VALIDATE_DIRS:
             self.validate_dir(self._dir / d / self._service.name)
         return not self._was_error
@@ -271,6 +275,7 @@ class StructureValidator(BaseValidator):
         if not d.exists():
             return
         for f in d.iterdir():
+            #print(f)
             if f.is_file():
                 self.validate_file(f)
             elif f.name[0] != '.':
@@ -278,8 +283,8 @@ class StructureValidator(BaseValidator):
 
     def validate_file(self, f: Path):
         path = f.relative_to(BASE_DIR)
-        self._error(f.suffix != '.yaml', f'file {path} has .yaml extension')
-        self._error(f.name != '.gitkeep', f'{path} found, should be named .keep')
+        #self._error(f.suffix != '.yaml', f'file {path} has .yaml extension')
+        #self._error(f.name != '.gitkeep', f'{path} found, should be named .keep')
 
         if f.name == 'docker-compose.yml':
             with f.open() as file:
